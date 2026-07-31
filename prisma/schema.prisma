@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  COMPANY_ADMIN
+  MANAGER
+  STAFF
+  CUSTOMER
+}
+
+model Company {
+  id          String   @id @default(uuid())
+  name        String
+  code        String   @unique
+  domain      String?
+  logoUrl     String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+
+  @@map("companies")
+}
+
+model User {
+  id           String         @id @default(uuid())
+  companyId    String
+  email        String         @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  phone        String?
+  avatarUrl    String?
+  role         UserRole       @default(STAFF)
+  status       UserStatus     @default(ACTIVE)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  company      Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  tokens       RefreshToken[]
+
+  @@index([companyId])
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
