@@ -27,8 +27,11 @@ app.get('/health', (req, res) => {
   });
 });
 
+import companyRoutes from './modules/company/routes';
+
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/companies', companyRoutes);
 
 // 404 Handler
 app.use((req, res) => {
