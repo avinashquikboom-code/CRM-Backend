@@ -15,7 +15,7 @@ export class AuthService {
       throw { statusCode: 400, message: 'Company code already exists' };
     }
 
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findFirst({
       where: { email: data.email },
     });
     if (existingUser) {
@@ -70,7 +70,7 @@ export class AuthService {
   }
 
   static async login(data: any) {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: { email: data.email },
       include: { company: true },
     });
