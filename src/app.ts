@@ -28,10 +28,12 @@ app.get('/health', (req, res) => {
 });
 
 import companyRoutes from './modules/company/routes';
+import branchRoutes from './modules/branch/routes';
 
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/companies', companyRoutes);
+app.use('/api/branches', branchRoutes);
 
 // 404 Handler
 app.use((req, res) => {
