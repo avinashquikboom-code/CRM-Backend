@@ -32,6 +32,7 @@ import branchRoutes from './modules/branch/routes';
 import departmentRoutes from './modules/department/routes';
 import employeeRoutes from './modules/employee/routes';
 import customerRoutes from './modules/customer/routes';
+import vendorRoutes from './modules/vendor/routes';
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -40,6 +41,7 @@ app.use('/api/branches', branchRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/vendors', vendorRoutes);
 
 // 404 Handler
 app.use((req, res) => {
